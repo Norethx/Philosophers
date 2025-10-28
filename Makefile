@@ -7,9 +7,9 @@ LIBFT := srcs/libft/libft.a
 SRCS_LIBFT := srcs/libft
 INCLUDES := include
 CPPFLAGS :=  $(addprefix -I,$(INCLUDES))
-SRCS_MANDATORY :=
+SRCS_MANDATORY := philo.c    parsing_args.c
 SRCS_BONUS :=
-SRCS_MANDATORY := $(addprefix $(PATH_MANDATORY)/,$(SRCS_MANDATORY))
+# SRCS_MANDATORY := $(addprefix $(PATH_MANDATORY)/,$(SRCS_MANDATORY))
 SRCS_BONUS := $(addprefix $(PATH_BONUS)/,$(SRCS_BONUS))
 OBJTS             := $(SRCS_MANDATORY:.c=.o)
 OBJTS_BONUS   := $(SRCS_BONUS:.c=.o)
