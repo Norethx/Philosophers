@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:11:13 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/10/27 20:56:23 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/10/28 20:42:48 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,24 @@
 /* Struct philo*/
 typedef struct s_philo
 {
+	pthread_t		philo_exec;
 	int				id_philo;
-	pthread_mutex_t	fork_l;
-	pthread_mutex_t	fork_r;
+	int				last_time_eat;
+	pthread_mutex_t	*fork_l;
+	pthread_mutex_t	*fork_r;
+	pthread_mutex_t	*status_sim;
 
 }					t_philo;
 
+/*Struct of the simulation*/
 typedef struct s_sim
 {
 	int				times_eat;
 	int				args[5];
-	pthread_mutex_t	death;
+	int				stop;
+	pthread_mutex_t	finish_sim;
 	pthread_mutex_t	status;
+	struct timeval	tv;
 }					t_sim;
 
 int					parsing_args(int argc, char **argv, t_sim **sim);

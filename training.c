@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 11:59:48 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/10/27 18:29:09 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/10/28 12:29:59 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(void)
 	int			i;
 
 	i = 0;
+	printf("%d",1%5);
+	usleep(100000);
 	pthread_mutex_init(&panela_livre, NULL);
 	pthread_mutex_init(&fogao_livre, NULL);
 	pthread_mutex_init(&colher_livre, NULL);

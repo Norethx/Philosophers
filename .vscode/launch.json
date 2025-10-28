@@ -5,7 +5,7 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": ["1","2","3","3"],
+      "args": ["3","2","3","3"],
       "stopAtEntry": false,
       "externalConsole": false,
       "cwd": "/nfs/homes/rgomes-d/git_Noreth/Philosophers",
