@@ -3,8 +3,6 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror -g
 PATH_BONUS := srcs/bonus
 PATH_MANDATORY := srcs/philo
-LIBFT := srcs/libft/libft.a
-SRCS_LIBFT := srcs/libft
 INCLUDES := include
 CPPFLAGS :=  $(addprefix -I,$(INCLUDES))
 SRCS_MANDATORY := philo.c    parsing_args.c
@@ -13,10 +11,6 @@ SRCS_BONUS :=
 SRCS_BONUS := $(addprefix $(PATH_BONUS)/,$(SRCS_BONUS))
 OBJTS             := $(SRCS_MANDATORY:.c=.o)
 OBJTS_BONUS   := $(SRCS_BONUS:.c=.o)
-OBJTS_LIBFT := $(addprefix $(SRCS_LIBFT)/,$(OBJTS_LIBFT))
-OBJTS_LIBFT = $(shell $(MAKE) -s -C $(SRCS_LIBFT) get_var)
-OBJTS_LIBFT := $(addprefix $(SRCS_LIBFT)/,$(OBJTS_LIBFT))
-
 
 # Cores ANSI
 GREEN  = \033[0;32m
@@ -29,14 +23,14 @@ NC     = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJTS)
+$(NAME): TEXT $(OBJTS)
 		@echo "$(YELLOW)+==========================================+"
 		@echo "          Build $(NAME)          	"
 		@echo "+==========================================+$(NC)"
 		$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJTS) $(LIBFT) -o $(NAME)
 
 
-$(LIBFT): $(OBJTS_LIBFT)
+TEXT:
 		@echo "$(MAGENTA)+==========================================+"
 		@echo "                Github: Norethx       "
 		@echo "+==========================================+\n\n$(NC)"
@@ -56,28 +50,22 @@ $(LIBFT): $(OBJTS_LIBFT)
 		@echo "	⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 		@echo "	⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉\n\n$(NC)"
 		@echo "$(RED)+==========================================+"
-		@echo "      Welcome to $(NAME) - Build libft       "
+		@echo "   Welcome to $(NAME) - Build Objts $(NAME)    "
 		@echo "+==========================================+$(NC)"
 		@echo "Compilando código...\n"
-		@make -C $(SRCS_LIBFT) NAME="libft.a" all
-		@echo "$(BLUE)+==========================================+"
-		@echo "          Build Objts $(NAME)         	"
-		@echo "+==========================================+$(NC)"
 
 %.o: %.c
 		$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
-.PHONY: clean fclean re all bonus $(OBJTS_LIBFT)
+.PHONY: clean fclean re all bonus $(OBJTS_LIBFT) TEXT
 
 bonus:
 		$(MAKE) SRCS_MANDATORY="$(SRCS_BONUS)" all
 
 clean:
-		@make -C $(SRCS_LIBFT) clean
 		rm -f $(OBJTS) $(OBJTS_BONUS) $(OBJTS_MANDATORY)
 
 fclean:
-		@make -C $(SRCS_LIBFT) fclean
 		rm -f $(OBJTS) $(OBJTS_BONUS) $(OBJTS_MANDATORY)
 		rm -f $(NAME)
 

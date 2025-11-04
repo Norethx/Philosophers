@@ -6,88 +6,158 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:12:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/10/28 20:41:46 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/03 21:29:08 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_philo	*create_philos(t_sim *sim);
-void	*philo_routine(void *philo);
-
-int	init_sim(t_sim *sim)
+inline long long	convert_u_ms(long long u)
 {
-	t_philo	*philos;
-	int		i;
+	return (1000L * u);
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void			*n_arr;
+	unsigned int	i_nmemb;
+	unsigned int	i_size;
+
+	i_nmemb = nmemb;
+	i_size = size;
+	if (nmemb == 0 || size == 0)
+	{
+		n_arr = malloc(1);
+		if (!n_arr)
+			return (NULL);
+		memset(n_arr, 0, 1);
+		return (n_arr);
+	}
+	if (((i_nmemb * i_size) / i_size) != nmemb)
+		return ((void *)0);
+	n_arr = malloc(size * nmemb);
+	if (!n_arr)
+		return (NULL);
+	memset(n_arr, 0, (nmemb * size));
+	return (n_arr);
+}
+
+int					create_philos(manmem_sim **mem);
+void				*philo_routine(void *philo);
+
+int	init_sim(manmem_sim **mainmem)
+{
+	int	i;
 
 	i = 0;
-	pthread_mutex_init(&sim->status, NULL);
-	philos = create_philos(sim);
-	if (!philos)
+	pthread_mutex_init(&mainmem[0]->sim->status_w, NULL);
+	create_philos(mainmem);
+	if (!mainmem[0]->philo)
 		return (1);
-	while (i < sim->args[0])
+	while (i < mainmem[0]->sim->args[0])
 	{
-		pthread_create(&philos[i].philo_exec, NULL, philo_routine,
-			(void *)&philos[i]);
-		pthread_join(philos[i++].philo_exec, NULL);
+		pthread_create(&mainmem[0]->philo[i].philo_exec, NULL, philo_routine,
+			(void *)&mainmem[0]->philo[i]);
+		i++;
 	}
+	while (--i >= 0)
+		pthread_join(mainmem[0]->philo[i].philo_exec, NULL);
 	return (0);
+}
+
+long long	time_now_ms(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * (long long)1000) + (tv.tv_usec / (long long)1000));
+}
+
+void	eat_routine(t_philo *philo_t)
+{
+	pthread_mutex_lock(philo_t->fork_r);
+	pthread_mutex_lock(philo_t->status_w);
+	printf(TAKEN_FORK, time_now_ms(), philo_t->id_philo, philo_t->status_w);
+	pthread_mutex_unlock(philo_t->status_w);
+	pthread_mutex_lock(philo_t->fork_l);
+	pthread_mutex_lock(philo_t->status_w);
+	printf(TAKEN_FORK, time_now_ms(), philo_t->id_philo, philo_t->status_w);
+	pthread_mutex_unlock(philo_t->status_w);
+	philo_t->last_time_eat = time_now_ms();
+	pthread_mutex_lock(philo_t->status_w);
+	printf(EATING, philo_t->last_time_eat, philo_t->id_philo);
+	pthread_mutex_unlock(philo_t->status_w);
+	pthread_mutex_unlock(philo_t->fork_r);
+	pthread_mutex_unlock(philo_t->fork_l);
+}
+
+
+print_function(type, philo)
+{
+
 }
 
 void	*philo_routine(void *philo)
 {
-	t_philo *philo_232;
+	t_philo	*philo_t;
 
-	philo_232 = philo;
-
-	while (1)
-	{
-
-	}
-	return(NULL);
+	philo_t = philo;
+	philo_t->last_time_eat = time_now_ms();
+	if (philo_t->id_philo % 2 == 0)
+		usleep(100000);
+	eat_routine(philo_t);
+	return (NULL);
 }
 
-t_philo	*create_philos(t_sim *sim)
+int	create_philos(manmem_sim **mem)
 {
-	t_philo			*philos;
-	pthread_mutex_t	*forks;
-	int				i;
+	int	i;
 
 	i = 0;
-	philos = ft_gc_calloc_root(sim->args[0], sizeof(t_philo), GC_DATA,
-			"philos");
-	forks = ft_gc_calloc_root(sim->args[0], sizeof(pthread_mutex_t), GC_DATA,
-			"forks");
-	if (!philos || !forks)
-		return (NULL);
-	while (i < sim->args[0])
+	mem[0]->philo = ft_calloc(mem[0]->sim->args[0], sizeof(t_philo));
+	if (!mem[0]->philo)
+		return (1);
+	mem[0]->forks = ft_calloc(mem[0]->sim->args[0], sizeof(pthread_mutex_t));
+	if (!mem[0]->forks)
+		return (2);
+	while (i < mem[0]->sim->args[0])
 	{
-		pthread_mutex_init(&forks[i], NULL);
-		philos[i].fork_r = &forks[i];
+		pthread_mutex_init(&mem[0]->forks[i], NULL);
+		mem[0]->philo[i].fork_r = &mem[0]->forks[i];
+		mem[0]->philo[i].status_sim = &mem[0]->sim->finish_sim;
+		mem[0]->philo[i].status_w = &mem[0]->sim->status_w;
+		mem[0]->philo[i].stop = &mem[0]->sim->stop;
 		if (i != 0)
-			philos[i].fork_l = &forks[i - 1];
-		philos[i].id_philo = i + 1;
+			mem[0]->philo[i].fork_l = &mem[0]->forks[i - 1];
+		mem[0]->philo[i].id_philo = i + 1;
 		i++;
 	}
-	philos[0].fork_l = &forks[sim->args[0] - 1];
-	return (philos);
+	mem[0]->philo[0].fork_l = mem[0]->philo[0].fork_r;
+	mem[0]->philo[0].fork_r = &mem[0]->forks[mem[0]->sim->args[0] - 1];
+	return (0);
+}
+
+int	free_mem(manmem_sim **main_mem)
+{
+	free(main_mem[0]->forks);
+	free(main_mem[0]->sim);
+	free(main_mem[0]->philo);
+	free(main_mem[0]);
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	t_sim	*sim;
+	manmem_sim	*main_mem;
 
 	if (argc < 5 || argc > 6)
 		return (1);
-	ft_gc_init();
-	sim = ft_gc_calloc_root(1, sizeof(t_sim), GC_DATA, "sim");
-	if (sim && parsing_args(argc, argv, &sim))
-	{
-		ft_gc_end();
+	main_mem = ft_calloc(1, sizeof(manmem_sim));
+	main_mem->sim = ft_calloc(1, sizeof(t_sim));
+	if (main_mem->sim && parsing_args(argc, argv, &main_mem->sim))
 		return (1);
-	}
-	init_sim(sim);
-	ft_gc_end();
+	init_sim(&main_mem);
+	free_mem(&main_mem);
 }
 
 /*
