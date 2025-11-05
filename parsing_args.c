@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 17:54:34 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/03 20:28:24 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:15:16 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	parsing_args(int argc, char **argv, t_sim **sim)
 	i = 0;
 	if (argc == 6)
 		sim[0]->times_eat = 1;
+	sim[0]->msg[0] = TAKEN_FORK;
+	sim[0]->msg[1] = EATING;
+	sim[0]->msg[2] = SLEEPING;
+	sim[0]->msg[3] = THINKING;
+	sim[0]->msg[4] = DIED;
 	if (!is_number(argv))
 	{
 		argv++;
