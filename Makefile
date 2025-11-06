@@ -2,14 +2,13 @@ NAME := philo
 CC := cc
 CFLAGS := -Wall -Wextra -Werror -g
 PATH_BONUS := srcs/bonus
-PATH_MANDATORY := srcs/philo
+# PATH_MANDATORY := srcs/philo
 INCLUDES := include
 CPPFLAGS :=  $(addprefix -I,$(INCLUDES))
-SRCS_MANDATORY := clean_allocs.c  handle_sim.c   parsing_args.c \
-                  philo.c  philo_routine.c  philo_utils.c \
-                  time_conversions.c
+SRCS_MANDATORY := parsing_args.c   philo.c  \
+
 SRCS_BONUS :=
-# SRCS_MANDATORY := $(addprefix $(PATH_MANDATORY)/,$(SRCS_MANDATORY))
+SRCS_MANDATORY := $(addprefix $(PATH_MANDATORY)/,$(SRCS_MANDATORY))
 SRCS_BONUS := $(addprefix $(PATH_BONUS)/,$(SRCS_BONUS))
 OBJTS             := $(SRCS_MANDATORY:.c=.o)
 OBJTS_BONUS   := $(SRCS_BONUS:.c=.o)

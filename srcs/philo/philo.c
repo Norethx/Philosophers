@@ -6,11 +6,11 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:12:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/06 18:27:47 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:21:39 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_bonus.h"
+#include "philo.h"
 
 void	routine_sentinel(t_memman **mem)
 {
