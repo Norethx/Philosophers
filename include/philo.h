@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:11:13 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/06 15:30:06 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/10 18:25:50 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define TAKEN_FORK "%lld %d has taken a fork. 🍴\n"
-# define EATING "%lld %d is eating. 🍝\n"
-# define SLEEPING "%lld %d is sleeping. 🛌\n"
-# define THINKING "%lld %d is thinking. 🤔\n"
-# define DIED "%lld %d died. 💀\n"
+# define TAKEN_FORK "%lld %d has taken a fork.\n"
+# define EATING "%lld %d is eating.\n"
+# define SLEEPING "%lld %d is sleeping.\n"
+# define THINKING "%lld %d is thinking.\n"
+# define DIED "%lld %d died.\n"
 
 typedef enum e_type
 {
