@@ -6,13 +6,11 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:29:58 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/10 17:01:32 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/11 15:44:18 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-int			ft_lenint(int n);
 
 int	ft_atoi(const char *nptr)
 {
@@ -92,86 +90,4 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		return (NULL);
 	memset(n_arr, 0, (nmemb * size));
 	return (n_arr);
-}
-
-char	*ft_strjnbr(char const *s1, int s2)
-{
-	int				i;
-	unsigned int	len_s[2];
-	char			*nbr;
-	char			*new_str;
-
-	i = 0;
-	nbr = ft_itoa(s2);
-	if (!nbr)
-		return (NULL);
-	len_s[0] = ft_strlen(s1);
-	len_s[1] = ft_strlen(nbr);
-	new_str = ft_calloc(1, ((len_s[0] + len_s[1] + 1)));
-	if (!new_str)
-		return (NULL);
-	while (s1[i])
-		new_str[i] = s1[i++];
-	i = 0;
-	while (nbr[i])
-		new_str[len_s[0] + i] = nbr[i++];
-	free(nbr);
-	return (new_str);
-}
-
-static int	ft_lenint(int n)
-{
-	int	i;
-
-	i = 1;
-	while ((n >= 10 || n <= -10) && i++)
-		n /= 10;
-	if (n < 0)
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(const char *s)
-{
-	size_t			size;
-	unsigned long	i;
-	char			*new_str;
-
-	size = ft_strlen(s);
-	i = 0;
-	new_str = ft_calloc(1, size + 1);
-	if (!new_str)
-		return (NULL);
-	while (i <= size)
-	{
-		new_str[i] = s[i];
-		i++;
-	}
-	return (new_str);
-}
-
-char	*ft_itoa(int n)
-{
-	int		i;
-	char	*nbr;
-
-	if (n == -2147483648)
-		return (ft_strdup((char *)"-2147483648"));
-	i = ft_lenint(n);
-	nbr = ft_calloc(1, i + 1);
-	if (!nbr)
-		return (NULL);
-	while (i-- > 0)
-	{
-		if (n < 0)
-			nbr[0] = '-';
-		if (n < 0)
-			n *= -1;
-		if (n >= 10)
-			nbr[i] = (n % 10) + '0';
-		else
-			nbr[i] = n + '0';
-		n /= 10;
-	}
-	return (nbr);
 }
