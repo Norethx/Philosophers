@@ -6,12 +6,12 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:11:13 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/11 19:23:45 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:51:52 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <fcntl.h>
 # include <pthread.h>
@@ -64,6 +64,7 @@ typedef struct s_philo
 	pid_t			philo_exec;
 	int				id_philo;
 	int				times_eat;
+	int				on_times_eat;
 	long long		last_time_eat;
 	int				*stop;
 	char			**msg;
@@ -101,14 +102,13 @@ typedef struct s_sim
 void				*waiter_routine(void *content);
 int					init_routine(t_philo *philo);
 void				*judge_routine(void *content);
-int					handle_unlink_sem(t_sim **sim);
+int					handle_unlink_sem(void);
 int					handle_close_sem(t_sim **sim);
 int					control_clean_child(t_sim **sim);
 int					build_philo(t_sim **sim, t_philo **philo, int id);
 int					init_philos(t_sim **sim);
 int					create_sem(sem_t **sem, int n_arg, const char *categ);
 int					handle_sem(t_sim **sim, int verify);
-int					handle_unlink_sem(t_sim **sim);
 size_t				ft_strlen(const char *str);
 char				*ft_itoa(int n);
 char				*ft_strdup(const char *s);
@@ -119,7 +119,7 @@ long long			ft_atoll(const char *nptr);
 int					ft_isspace(char c);
 long long			convert_u_ms(long long u);
 long long			convert_ms_u(long long ms);
-void				*philo_routine(void *philo);
+void				*philo_routine(t_philo *philo_t);
 void				post_eat_routine(t_philo *philo_t);
 void				*run_sim(void *mainmem);
 long long			time_now_ms(void);

@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:28:38 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/10 11:46:13 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/12 19:10:18 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ int	clean_philos(t_memman **mem, int size)
 	return (1);
 }
 
-/*
-RECEBER FLAGS PARA LIMPAR CORETAMENTE OS MALLOCS
-*/
 int	free_mem(t_memman **main_mem)
 {
 	if (main_mem[0]->allocs & C_FORKS)
@@ -44,4 +41,19 @@ int	free_mem(t_memman **main_mem)
 	}
 	free(main_mem[0]);
 	return (0);
+}
+
+void	control_destroy_mutex(t_memman **mem)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(&mem[0]->sim->status_w);
+	pthread_mutex_destroy(&mem[0]->sim->finish_sim);
+	while (i < mem[0]->sim->args[0])
+	{
+		pthread_mutex_destroy(&mem[0]->forks[i]);
+		pthread_mutex_destroy(&mem[0]->philo[i]->last_time_m);
+		i++;
+	}
 }

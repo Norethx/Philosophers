@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 15:48:05 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/11 19:24:34 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:37:41 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ int	init_philos(t_sim **sim)
 		if (!philo->philo_exec)
 		{
 			sim[0]->is_child = 1;
+			philo->start = time_now_ms();
 			init_routine(philo);
 			control_clean_child(sim);
 		}
 		else
 			sim[0]->philos_id[i - 1] = philo->philo_exec;
 	}
-	pthread_create(&sim[0]->judge, NULL, judge_routine, (void *)sim[0]);
+	pthread_create(&sim[0]->judge, NULL, judge_routine, (void *)sim);
 	pthread_join(sim[0]->judge, NULL);
 	while (--i >= 0)
 		waitpid(sim[0]->philos_id[i], 0, 0);
@@ -40,12 +41,30 @@ int	init_philos(t_sim **sim)
 	return (1);
 }
 
-void *judge_routine(void *content)
+void	*judge_routine(void *content)
 {
-	t_sim *sim;
+	t_sim	**sim;
 
 	sim = content;
-	printf("judge aqui");
+	while (1)
+	{
+		sem_wait(sim[0]->prot_end_eat);
+		if (sim[0]->end_eat->__align == 0)
+		{
+			sem_wait(sim[0]->prot_finish);
+			if (sim[0]->finish_sem->__align != 0)
+				sem_wait(sim[0]->finish_sem);
+			break ;
+		}
+		sem_wait(sim[0]->prot_finish);
+		if (sim[0]->finish_sem->__align == 0)
+			break ;
+		sem_post(sim[0]->prot_finish);
+		sem_post(sim[0]->prot_end_eat);
+		usleep(convert_ms_u(2));
+	}
+	sem_post(sim[0]->prot_finish);
+	sem_post(sim[0]->prot_end_eat);
 	return (NULL);
 }
 
@@ -65,6 +84,7 @@ int	build_philo(t_sim **sim, t_philo **philo, int id)
 		philo[0]->id_philo = id;
 		philo[0]->msg = sim[0]->msg;
 		philo[0]->args = sim[0]->args;
+		philo[0]->on_times_eat = sim[0]->times_eat;
 		philo[0]->start = time_now_ms();
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:44:37 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/10 18:27:40 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/12 11:49:40 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ void	*philo_routine(void *philo)
 	pthread_mutex_lock(&philo_t[0]->last_time_m);
 	philo_t[0]->last_time_eat = time_now_ms();
 	pthread_mutex_unlock(&philo_t[0]->last_time_m);
-	if (philo_t[0]->id_philo % 2 == 0)
-		usleep(convert_ms_u(1));
+	if (philo_t[0]->id_philo % 2 == 0 && philo_t[0]->args[0] % 2 == 0)
+		usleep(convert_ms_u(philo_t[0]->args[2] - 1));
+	else if (philo_t[0]->id_philo % 2 == 1 && philo_t[0]->args[0] % 2 == 1)
+		usleep(convert_ms_u(philo_t[0]->args[2] - 1));
 	while (1)
 	{
 		pthread_mutex_lock(philo_t[0]->status_sim);

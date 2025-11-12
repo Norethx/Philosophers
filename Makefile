@@ -6,7 +6,7 @@ PATH_MANDATORY := srcs/philo
 INCLUDES := include
 CPPFLAGS :=  $(addprefix -I,$(INCLUDES))
 SRCS_MANDATORY :=  clean_allocs.c  handle_sim.c  parsing_args.c  philo.c  philo_routine.c  philo_utils.c  time_conversions.c
-SRCS_BONUS := handle_philos.c  handle_sem.c  parsing_args.c  philo.c  philo_utils.c  time_conversions.c  philo_routine.c
+SRCS_BONUS := handle_mem.c   handle_philos.c  handle_sem.c  parsing_args.c  philo.c  philo_utils.c  time_conversions.c  philo_routine.c
 SRCS_MANDATORY := $(addprefix $(PATH_MANDATORY)/,$(SRCS_MANDATORY))
 SRCS_BONUS := $(addprefix $(PATH_BONUS)/,$(SRCS_BONUS))
 OBJTS             := $(SRCS_MANDATORY:.c=.o)
@@ -62,7 +62,7 @@ TEXT:
 		@sleep 0.1
 		@$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
-bonus: fclean
+bonus:
 		@$(MAKE) SRCS_MANDATORY="$(SRCS_BONUS)" all
 
 .PHONY: clean fclean re all bonus $(OBJTS_LIBFT)

@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:45:46 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/06 14:47:12 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/12 19:11:46 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	init_sim(t_memman **mainmem)
 		return (1);
 	if (handle_sim(mainmem))
 		return (1);
+	control_destroy_mutex(mainmem);
 	clean_philos(mainmem, mainmem[0]->sim->args[0]);
 	return (0);
 }
@@ -118,7 +119,7 @@ int	create_philos(t_memman **mem)
 		if (!mem[0]->philo[i])
 			return (clean_philos(mem, i));
 		pthread_mutex_init(&mem[0]->forks[i], NULL);
-		pthread_mutex_init(&mem[0]->philo[0]->last_time_m, NULL);
+		pthread_mutex_init(&mem[0]->philo[i]->last_time_m, NULL);
 		mem[0]->philo[i]->msg = mem[0]->sim->msg;
 		mem[0]->philo[i]->stop = &mem[0]->sim->stop;
 		mem[0]->philo[i]->fork_r = &mem[0]->forks[i];

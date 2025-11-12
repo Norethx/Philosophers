@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:11:13 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/11 15:12:50 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/12 19:20:51 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct manmem_sim
 	int				minor_time_eat;
 }					t_memman;
 
+void				control_destroy_mutex(t_memman **mem);
 int					parsing_args(int argc, char **argv, t_sim **sim);
 int					ft_atoi(const char *nptr);
 long long			ft_atoll(const char *nptr);

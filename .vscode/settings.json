@@ -4,6 +4,7 @@
 		"pthread.h": "c",
 		"string.h": "c",
 		"philo_bonus.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"type_traits": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 15:33:40 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/11 19:12:55 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/12 15:54:08 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,12 @@ int	handle_close_sem(t_sim **sim)
 	return (0);
 }
 
-int	handle_unlink_sem(t_sim **sim)
+int	init_routine(t_philo *philo)
 {
-	if (sim[0]->control_mem & C_FORKS)
-		sem_unlink("fork");
-	if (sim[0]->control_mem & C_PFORKS)
-		sem_unlink("p_fork");
-	if (sim[0]->control_mem & C_EAT)
-		sem_unlink("end");
-	if (sim[0]->control_mem & C_PEAT)
-		sem_unlink("p_end");
-	if (sim[0]->control_mem & C_END)
-		sem_unlink("eat");
-	if (sim[0]->control_mem & C_PEND)
-		sem_unlink("p_eat");
+	philo->last_time_eat = time_now_ms();
+	pthread_create(&philo->waiter, NULL, waiter_routine, (void *)&philo);
+	philo_routine(philo);
+	pthread_join(philo->waiter, NULL);
+	free(philo);
 	return (0);
-}
-
-int	control_clean_child(t_sim **sim)
-{
-	free(sim[0]->philos_id);
-	handle_close_sem(sim);
-	free(sim[0]);
-	exit(EXIT_SUCCESS);
 }
