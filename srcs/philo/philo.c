@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:12:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/10 15:17:20 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/12 19:33:49 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ int	main(int argc, char **argv)
 	if (!main_mem->sim)
 		return (1);
 	main_mem->allocs |= C_SIM;
-	if (!parsing_args(argc, argv, &main_mem->sim))
-		init_sim(&main_mem);
+	if (parsing_args(argc, argv, &main_mem->sim))
+		return (1);
+	init_sim(&main_mem);
 	free_mem(&main_mem);
 }
