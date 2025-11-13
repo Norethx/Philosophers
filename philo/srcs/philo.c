@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:12:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/12 19:33:49 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:52:41 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,29 @@
 
 void	routine_sentinel(t_memman **mem)
 {
-	int	aux;
-	int	i;
+	int	i[2];
 
-	i = 0;
-	while (i < mem[0]->sim->args[0])
+	i[0] = 0;
+	while (i[0] < mem[0]->sim->args[0])
 	{
-		pthread_mutex_lock(&mem[0]->philo[i]->last_time_m);
-		aux = mem[0]->sim->args[1] - (time_now_ms()
-				- mem[0]->philo[i]->last_time_eat);
+		pthread_mutex_lock(&mem[0]->philo[i[0]]->last_time_m);
+		i[1] = mem[0]->sim->args[1] - (time_now_ms()
+				- mem[0]->philo[i[0]]->last_time_eat);
 		if (mem[0]->sim->times_eat == 1
-			&& mem[0]->minor_time_eat > mem[0]->philo[i]->times_eat)
+			&& mem[0]->minor_time_eat > mem[0]->philo[i[0]]->times_eat)
 			mem[0]->minor_time_eat = -1;
-		pthread_mutex_unlock(&mem[0]->philo[i]->last_time_m);
-		if (mem[0]->less_time > aux)
-			mem[0]->less_time = aux;
-		if (mem[0]->less_time > aux)
-			mem[0]->i_philo = i;
+		pthread_mutex_unlock(&mem[0]->philo[i[0]]->last_time_m);
+		if (mem[0]->less_time > i[1])
+			mem[0]->i_philo = i[0];
+		if (mem[0]->less_time > i[1])
+			mem[0]->less_time = i[1];
 		if (mem[0]->less_time <= 0)
 		{
 			pthread_mutex_lock(&mem[0]->sim->finish_sim);
 			mem[0]->sim->stop = 1;
 			pthread_mutex_unlock(&mem[0]->sim->finish_sim);
 		}
-		i++;
+		i[0]++;
 	}
 }
 
