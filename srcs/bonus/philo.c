@@ -6,7 +6,7 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 21:12:55 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/12 15:52:34 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/13 11:22:49 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int	main(int argc, char **argv)
 	if (!sim_philo)
 		return (1);
 	sim_philo->control_mem |= C_SIM;
-	if (!parsing_args(argc, argv, &sim_philo))
-		init_sim(&sim_philo);
+	if (parsing_args(argc, argv, &sim_philo))
+		return (1);
+	init_sim(&sim_philo);
 	free(sim_philo);
 }
