@@ -6,11 +6,11 @@
 /*   By: rgomes-d <rgomes-d@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 14:42:36 by rgomes-d          #+#    #+#             */
-/*   Updated: 2025/11/06 16:45:55 by rgomes-d         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:24:51 by rgomes-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 inline long long	convert_u_ms(long long u)
 {

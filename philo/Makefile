@@ -3,9 +3,9 @@ INCLUDES := include
 CFLAGS := -Wall -Wextra -Werror -g
 CPPFLAGS :=  $(addprefix -I,$(INCLUDES))
 NAME := philo
-PATH := srcs
+PATH_E := srcs
 SRCS :=  clean_allocs.c  handle_sim.c  parsing_args.c  philo.c  philo_routine.c  philo_utils.c  time_conversions.c
-SRCS := $(addprefix $(PATH)/,$(SRCS))
+SRCS := $(addprefix $(PATH_E)/,$(SRCS))
 OBJTS             := $(SRCS:.c=.o)
 
 # Cores ANSI
@@ -54,7 +54,8 @@ TEXT:
 		@echo "+==========================================+\n$(NC)"
 
 %.o: %.c
-# 		printf "$(L_GREEN)Compiling...$(NC) %-40s\n" $@
+		@printf "$(L_GREEN)Compiling...$(NC) %-40s\n" $@
+		@sleep 0.1
 		@$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 .PHONY: clean fclean re all
@@ -71,8 +72,8 @@ fclean:
 		@echo "             Cleaning files            "
 		@echo "+==========================================+$(NC)"
 		@echo "\n$(L_RED)Removing:$(NC) $(OBJTS)"
-		@/usr/bin/rm -f $(OBJTS)
-		echo "\n$(L_RED)Removing:$(NC) $(NAME)\n"
-		/usr/bin/rm -f $(NAME)
+		@rm -f $(OBJTS)
+		@echo "\n$(L_RED)Removing:$(NC) $(NAME)\n"
+		@rm -f $(NAME)
 
 re: fclean TEXT all

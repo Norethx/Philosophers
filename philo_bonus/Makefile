@@ -1,11 +1,11 @@
 NAME := philo_bonus
-CC := gcc
+CC := cc
 INCLUDES := include
 CPPFLAGS :=  $(addprefix -I,$(INCLUDES))
 CFLAGS := -Wall -Wextra -Werror -g
-PATH := srcs
+PATH_E := srcs
 SRCS :=  handle_mem.c   handle_philos.c  handle_sem.c  parsing_args.c  philo.c  philo_utils.c  time_conversions.c  philo_routine.c
-SRCS := $(addprefix $(PATH)/,$(SRCS))
+SRCS := $(addprefix $(PATH_E)/,$(SRCS))
 OBJTS             := $(SRCS:.c=.o)
 
 
